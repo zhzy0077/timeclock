@@ -33,6 +33,7 @@ public class EntryController : ControllerBase
         {
             lastEntry.Id = null;
             lastEntry.Type = EntryType.Out;
+            lastEntry.DateTime = DateTimeOffset.Now;
             _context.Entries!.Add(lastEntry);
         }
 
