@@ -3,7 +3,7 @@ name: Nightly
 on:
   push:
     branches:
-      - master
+      - main
 
 env:
   IMAGE_NAME: timeclock
