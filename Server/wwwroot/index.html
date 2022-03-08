@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <title>Time Clock</title>
+    <meta charset="utf-8">
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+<form action="entry" method="post">
+    Account:
+    <div id="accounts"></div>
+    <label>
+        Description:
+        <input type="text" name="description">
+    </label>
+    <input type="submit">
+</form>
+<a href="entry">View Entries</a>
+
+<form action="account" method="post" style="margin-top: 40px">
+    <label>
+        Name:
+        <input type="text" name="name">
+    </label>
+    <input type="submit" value="Add">
+</form>
+
+<form action="account/delete" method="post">
+    <label>
+        Name:
+        <input type="text" name="name">
+    </label>
+    <input type="submit" value="Delete">
+</form>
+
+
+<script>
+    fetch("account")
+        .then(res => res.json())
+        .then(res => {
+            res.forEach(res => {
+                $("#accounts")
+                    .append(
+                        "    <div>" +
+                        "        <label>" +
+                        `            <input type="radio" name="account" value='${res.name}'>${res.name}` +
+                        "        </label>" +
+                        "    </div>")
+            })
+        })
+</script>
+</body>
+</html>
