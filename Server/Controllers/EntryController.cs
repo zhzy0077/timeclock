@@ -28,11 +28,15 @@ public class EntryController : ControllerBase
     [HttpPost]
     public async Task<Entry> Insert([FromForm] string account, [FromForm] string? description)
     {
-        var lastEntry = await _context.Entries!.OrderByDescending(e => e.Id).AsNoTracking().FirstAsync().ConfigureAwait(false);
-        lastEntry.Id = null;
-        lastEntry.Type = EntryType.Out;
+        var lastEntry = await _context.Entries!.OrderByDescending(e => e.Id).AsNoTracking().FirstOrDefaultAsync().ConfigureAwait(false);
+        if (lastEntry != null)
+        {
+            lastEntry.Id = null;
+            lastEntry.Type = EntryType.Out;
+            _context.Entries!.Add(lastEntry);
+        }
+
         var entry = new Entry(EntryType.In, DateTimeOffset.Now, account, description);
-        _context.Entries!.Add(lastEntry);
         _context.Entries!.Add(entry);
         await _context.SaveChangesAsync().ConfigureAwait(false);
 
